@@ -1,0 +1,11 @@
+
+
+{% if all_tasks %}
+    <ul>
+    {% for task in all_tasks %}
+        <li>{{ task.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Tasks created.</p>
+{% endif %}

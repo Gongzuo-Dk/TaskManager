@@ -7,12 +7,20 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     name = models.CharField(max_length=30)
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.name
     
 
 class Priority(models.Model):
     name = models.CharField(max_length=30)
+
+    class Meta:
+        verbose_name = "Priority"
+        verbose_name_plural = "Priorities"
 
     def __str__(self):
         return self.name
@@ -27,6 +35,10 @@ class Task(models.Model):
     due_date = models.DateTimeField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name = "Task"
+        verbose_name_plural = "Tasks"
 
     def __str__(self):
         if len(self.title) > 35:
