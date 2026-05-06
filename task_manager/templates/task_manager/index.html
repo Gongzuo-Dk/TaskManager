@@ -1,11 +1,110 @@
+{% extends "base.html" %}
 
+{% block content %}
+<h2>My Tasks</h2>
 
-{% if all_tasks %}
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+{% comment %} Today {% endcomment %}
+{% if today_tasks %}
+<section>
+    <h3>Today</h3>
     <ul>
-    {% for task in all_tasks %}
-        <li>{{ task.title }}</li>
+    {% for task in today_tasks %}
+        <li>
+            {{ task.title }}
+            {% if task.category %}[{{ task.category }}]{% endif %}
+            {% if task.priority %}({{ task.priority }}){% endif %}
+            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
+            <a href="{% url 'task_update' task.pk %}">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No Tasks created.</p>
+</section>
 {% endif %}
+
+{% comment %} Next 7 Days {% endcomment %}
+{% if next_7_days_tasks %}
+<section>
+    <h3>Next 7 Days</h3>
+    <ul>
+    {% for task in next_7_days_tasks %}
+        <li>
+            {{ task.title }}
+            — {{ task.due_date|date:"M d" }}
+            {% if task.category %}[{{ task.category }}]{% endif %}
+            {% if task.priority %}({{ task.priority }}){% endif %}
+            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
+            <a href="{% url 'task_update' task.pk %}">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{% comment %} Later {% endcomment %}
+{% if later_tasks %}
+<section>
+    <h3>Later</h3>
+    <ul>
+    {% for task in later_tasks %}
+        <li>
+            {{ task.title }}
+            — {{ task.due_date|date:"M d, Y" }}
+            {% if task.category %}[{{ task.category }}){% endif %}
+            {% if task.priority %}({{ task.priority }}){% endif %}
+            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
+            <a href="{% url 'task_update' task.pk %}">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{% comment %} No Date {% endcomment %}
+{% if no_date_tasks %}
+<section>
+    <h3>No Date</h3>
+    <ul>
+    {% for task in no_date_tasks %}
+        <li>
+            {{ task.title }}
+            {% if task.category %}[{{ task.category }}]{% endif %}
+            {% if task.priority %}({{ task.priority }}){% endif %}
+            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
+            <a href="{% url 'task_update' task.pk %}">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{% comment %} Completed {% endcomment %}
+{% if completed_tasks %}
+<section>
+    <h3>Completed</h3>
+    <ul>
+    {% for task in completed_tasks %}
+        <li>
+            <s>{{ task.title }}</s>
+            <a href="{% url 'task_toggle_complete' task.pk %}">Uncomplete</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+{% if not today_tasks and not next_7_days_tasks and not later_tasks and not no_date_tasks and not completed_tasks %}
+    <p>No tasks yet. <a href="{% url 'task_create' %}">Create your first task</a></p>
+{% endif %}
+
+{% endblock %}
