@@ -4,6 +4,7 @@ from django.contrib import messages
 from task_manager.forms import TaskForm
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 from task_manager.models import Task, Category, Priority
 
 # Create your views here.
@@ -92,5 +93,28 @@ def task_toggle_complete(request, pk):
     task.save(update_fields=["is_completed"])
     return redirect("index")
 
+def search(request):
+    query = request.GET.get("q", "")
+    results = []
+    error = None
 
+    if query:
+        if len(query) > 30:
+            error = "Search query cannot exceed 30 characters."
+        else:
+            results = Task.objects.filter(
+                user=request.user
+            ).filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(category__name__icontains=query) |
+                Q(priority__name__icontains=query)
+            ).distinct().order_by("-due_date")
 
+    context = {
+        "query": query,
+        "results": results,
+        "error": error,
+    }
+
+    return render(request, "task_manager/search.html", context)

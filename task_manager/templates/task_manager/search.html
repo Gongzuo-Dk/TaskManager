@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Search Results</h2>
+
+{% if error %}
+    <p>{{ error }}</p>
+
+{% elif query %}
+
+    {% if results %}
+
+        <p>Results for: "<strong>{{ query }}</strong>"</p>
+
+        <ul>
+            {% for task in results %}
+                <li>
+
+                    {% if task.is_completed %}
+                        <s>{{ task.title }}</s>
+                    {% else %}
+                        {{ task.title }}
+                    {% endif %}
+
+                    {% if task.content %}
+                        <br>
+                        {{ task.content }}
+                    {% endif %}
+
+                    {% if task.category %}
+                        <br>
+                        Category: {{ task.category }}
+                    {% endif %}
+
+                    {% if task.priority %}
+                        <br>
+                        Priority: {{ task.priority }}
+                    {% endif %}
+
+                    {% if task.due_date %}
+                        <br>
+                        Due: {{ task.due_date|date:"M d, Y H:i" }}
+                    {% endif %}
+
+                    <br><br>
+
+                    {% if task.is_completed %}
+                        <a href="{% url 'task_toggle_complete' task.pk %}">
+                            Uncomplete
+                        </a>
+                    {% else %}
+                        <a href="{% url 'task_toggle_complete' task.pk %}">
+                            Complete
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'task_update' task.pk %}">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'task_delete' task.pk %}">
+                        Delete
+                    </a>
+
+                </li>
+
+                <hr>
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>No tasks found for "{{ query }}".</p>
+    {% endif %}
+
+{% else %}
+    <p>Enter something into the search bar.</p>
+
+{% endif %}
+
+{% endblock %}
