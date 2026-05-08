@@ -9,6 +9,27 @@
     {% endfor %}
 {% endif %}
 
+{% if overdue_tasks %}
+<section>
+    <h3>Overdue</h3>
+    <ul>
+    {% for task in overdue_tasks %}
+        <li>
+            {{ task.title }}
+            — {{ task.due_date|date:"d M, Y H:i" }}
+            {% if task.category %}
+                [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
+            {% endif %}
+            {% if task.priority %}({{ task.priority }}){% endif %}
+            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
+            <a href="{% url 'task_update' task.pk %}">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
 {% if today_tasks %}
     <ul>
     {% for task in today_tasks %}
@@ -26,7 +47,7 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No tasks for today! 🎉</p>
+    <p>No tasks for today!</p>
 {% endif %}
 
 {% endblock %}

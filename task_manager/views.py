@@ -11,18 +11,21 @@ from task_manager.models import Task, Category, Priority
 
 @login_required
 def index(request):
-    today = timezone.now().date()
+    now = timezone.now()
+    today = now.date()
     week_ahead = today + timedelta(days=7)
 
     all_tasks = Task.objects.filter(user=request.user, is_completed=False)
 
-    today_tasks = all_tasks.filter(due_date__date=today)
+    overdue_tasks = all_tasks.filter(due_date__lt=now)
+    today_tasks = all_tasks.filter(due_date__date=today, due_date__gte=now)
     next_7_days_tasks = all_tasks.filter(due_date__date__gt=today, due_date__date__lte=week_ahead)
     later_tasks = all_tasks.filter(due_date__date__gt=week_ahead)
     no_date_tasks = all_tasks.filter(due_date__isnull=True)
     completed_tasks = Task.objects.filter(user=request.user, is_completed=True)
 
     context = {
+        "overdue_tasks": overdue_tasks,
         "today_tasks": today_tasks,
         "next_7_days_tasks": next_7_days_tasks,
         "later_tasks": later_tasks,
@@ -122,14 +125,24 @@ def search(request):
 
 @login_required
 def today(request):
-    today = timezone.now().date()
+    now = timezone.now()
+    today = now.date()
+
+    overdue_tasks = Task.objects.filter(
+        user=request.user,
+        is_completed=False,
+        due_date__lt=now
+    ).order_by("due_date")
+
     today_tasks = Task.objects.filter(
         user=request.user,
         is_completed=False,
-        due_date__date=today
+        due_date__date=today,
+        due_date__gte=now
     ).order_by("due_date")
 
     context = {
+        "overdue_tasks": overdue_tasks,
         "today_tasks": today_tasks,
         "today": today,
     }
