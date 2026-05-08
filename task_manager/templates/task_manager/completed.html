@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Completed Tasks</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+{% if completed_tasks %}
+    <ul>
+    {% for task in completed_tasks %}
+        <li>
+            <s>{{ task.title }}</s>
+            {% if task.category %}
+                [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
+            {% endif %}
+            <a href="{% url 'task_toggle_complete' task.pk %}">Uncomplete</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No completed tasks yet.</p>
+{% endif %}
+
+{% endblock %}

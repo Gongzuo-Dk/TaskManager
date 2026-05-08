@@ -18,8 +18,16 @@
                 <button type="submit">Search</button>
               </form>
             </li>
-            <a href="{% url 'task_create' %}">+ New Task</a>
-            <a href="{% url 'index' %}">Tasks</a>
+            <a href="{% url 'task_create' %}">+ Add Task</a>
+            <a href="{% url 'index' %}">All</a>
+            <a href="{% url 'today' %}">Today</a>
+            <a href="{% url 'completed' %}">Completed</a>
+            <a href="{% url 'category_create' %}">Add Category</a>
+            {% if pinned_categories %}
+                {% for category in pinned_categories %}
+                    <a href="{% url 'category_tasks' category.pk %}">{{ category.name }}</a>
+                {% endfor %}
+            {% endif %}
             <a href="{% url 'profile' %}">Profile</a>
             <a href="{% url 'logout' %}">Logout</a>
         {% else %}

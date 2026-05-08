@@ -30,7 +30,7 @@
 
                     {% if task.category %}
                         <br>
-                        Category: {{ task.category }}
+                        Category: [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
                     {% endif %}
 
                     {% if task.priority %}
@@ -40,7 +40,7 @@
 
                     {% if task.due_date %}
                         <br>
-                        Due: {{ task.due_date|date:"M d, Y H:i" }}
+                        Due: {{ task.due_date|date:"d M, Y H:i" }}
                     {% endif %}
 
                     <br><br>

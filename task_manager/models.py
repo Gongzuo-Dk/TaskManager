@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Category(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
     name = models.CharField(max_length=30)
+    is_pinned = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Category"

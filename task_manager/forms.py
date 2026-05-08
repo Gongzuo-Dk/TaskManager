@@ -11,7 +11,7 @@ class TaskForm(forms.ModelForm):
         widget=forms.Textarea(attrs={"rows": 3}),
     )
     category = forms.ModelChoiceField(
-        queryset=Category.objects.all(),
+        queryset=Category.objects.none(),
         required=False,
     )
     priority = forms.ModelChoiceField(
@@ -22,3 +22,19 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ["title", "content", "category", "priority", "due_date"]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["category"].queryset = Category.objects.filter(user=user)
+
+class CategoryForm(forms.ModelForm):
+    is_pinned = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "checkboxCategory"}),
+    )
+
+    class Meta:
+        model = Category
+        fields = ["name", "is_pinned"]

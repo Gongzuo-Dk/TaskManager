@@ -17,7 +17,9 @@
     {% for task in today_tasks %}
         <li>
             {{ task.title }}
-            {% if task.category %}[{{ task.category }}]{% endif %}
+            {% if task.category %}
+                [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
+            {% endif %}
             {% if task.priority %}({{ task.priority }}){% endif %}
             <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
             <a href="{% url 'task_update' task.pk %}">Edit</a>
@@ -36,8 +38,10 @@
     {% for task in next_7_days_tasks %}
         <li>
             {{ task.title }}
-            — {{ task.due_date|date:"M d" }}
-            {% if task.category %}[{{ task.category }}]{% endif %}
+            — {{ task.due_date|date:"d M" }}
+            {% if task.category %}
+                [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
+            {% endif %}
             {% if task.priority %}({{ task.priority }}){% endif %}
             <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
             <a href="{% url 'task_update' task.pk %}">Edit</a>
@@ -56,8 +60,10 @@
     {% for task in later_tasks %}
         <li>
             {{ task.title }}
-            — {{ task.due_date|date:"M d, Y" }}
-            {% if task.category %}[{{ task.category }}]{% endif %}
+            — {{ task.due_date|date:"d M, Y" }}
+            {% if task.category %}
+                [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
+            {% endif %}
             {% if task.priority %}({{ task.priority }}){% endif %}
             <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
             <a href="{% url 'task_update' task.pk %}">Edit</a>
@@ -76,7 +82,9 @@
     {% for task in no_date_tasks %}
         <li>
             {{ task.title }}
-            {% if task.category %}[{{ task.category }}]{% endif %}
+            {% if task.category %}
+                [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
+            {% endif %}
             {% if task.priority %}({{ task.priority }}){% endif %}
             <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
             <a href="{% url 'task_update' task.pk %}">Edit</a>

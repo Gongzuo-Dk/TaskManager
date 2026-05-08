@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
-
 {% block content %}
     <h2>Profile</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if request.user.profile.avatar %}
+        <img src="{{ request.user.profile.avatar.url }}" 
+             alt="Avatar" 
+             width="100">
+    {% else %}
+        <p>No avatar uploaded yet.</p>
+    {% endif %}
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ p_form.as_p }}
