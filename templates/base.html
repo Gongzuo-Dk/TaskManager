@@ -1,24 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>TaskManager</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
   <body>
     <nav>
         {% if user.is_authenticated %}
-            <li class="search-bar">
-              <form action="{% url 'search' %}" method="GET">
-                <input
-                  type="search"
-                  name="q"
-                  placeholder="Search tasks..."
-                  maxlength="30"
-                >
-                <button type="submit">Search</button>
-              </form>
-            </li>
-            <a href="{% url 'task_create' %}">+ Add Task</a>
+            <form action="{% url 'search' %}" method="GET">
+              <input
+                type="search"
+                name="q"
+                placeholder="🔍Search tasks..."
+                maxlength="30"
+              >
+              <button type="submit">Search</button>
+            </form>
+            <a href="{% url 'task_create' %}">＋Add Task</a>
             <a href="{% url 'index' %}">All</a>
             <a href="{% url 'today' %}">Today</a>
             <a href="{% url 'completed' %}">Completed</a>

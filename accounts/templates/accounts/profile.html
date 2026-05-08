@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
     <h2>Profile</h2>
 
@@ -9,11 +11,9 @@
     {% endif %}
 
     {% if request.user.profile.avatar %}
-        <img src="{{ request.user.profile.avatar.url }}" 
-             alt="Avatar" 
-             width="100">
+        <img class="avatar-img" src="{{ request.user.profile.avatar.url }}" alt="Avatar">
     {% else %}
-        <p>No avatar uploaded yet.</p>
+        <img class="avatar-img" src="{% static 'images/default.png' %}">
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
