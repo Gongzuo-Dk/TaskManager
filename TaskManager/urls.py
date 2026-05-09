@@ -24,3 +24,6 @@ urlpatterns = [
     path("", include("task_manager.urls")),
     path("accounts/", include("accounts.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'task_manager.views.error_404'
+handler500 = 'task_manager.views.error_500'
