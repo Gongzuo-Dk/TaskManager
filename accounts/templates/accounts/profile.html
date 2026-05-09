@@ -4,16 +4,10 @@
 {% block content %}
     <h2>Profile</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-
     {% if request.user.profile.avatar %}
         <img class="avatar-img" src="{{ request.user.profile.avatar.url }}" alt="Avatar">
     {% else %}
-        <img class="avatar-img" src="{% static 'images/default.png' %}">
+        <img class="avatar-img" src="{% static 'images/default_avatar.png' %}">
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">

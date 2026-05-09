@@ -1,24 +1,48 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <h2>{{ category.name }}</h2>
 
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
-
 {% if tasks %}
     <ul>
     {% for task in tasks %}
-        <li>
-            {{ task.title }}
-            {% if task.due_date %}— {{ task.due_date|date:"d M, Y H:i" }}{% endif %}
-            {% if task.priority %}({{ task.priority }}){% endif %}
-            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
-            <a href="{% url 'task_update' task.pk %}">Edit</a>
-            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        <li class="task-card">
+
+            <div class="task-main">
+
+                <div class="task-left">
+
+                    {% if task.priority == "High" %}
+                        <span class="priority-dot priority-high"></span>
+                    {% elif task.priority == "Medium" %}
+                        <span class="priority-dot priority-medium"></span>
+                    {% else %}
+                        <span class="priority-dot priority-low"></span>
+                    {% endif %}
+
+                    <div>
+                        <div class="task-title">
+                            {{ task.title }}
+                        </div>
+
+                        {% if task.due_date %}
+                            <div class="task-date">
+                                {{ task.due_date|date:"d M, Y H:i" }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="task-actions">
+                <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
+                <a href="{% url 'task_update' task.pk %}">Edit</a>
+                <a href="{% url 'task_delete' task.pk %}">Delete</a>
+            </div>
+
         </li>
     {% endfor %}
     </ul>
@@ -27,21 +51,45 @@
 {% endif %}
 
 {% if completed %}
+<section>
     <h3>Completed</h3>
     <ul>
     {% for task in completed %}
-        <li>
-            <s>{{ task.title }}</s>
-            <a href="{% url 'task_toggle_complete' task.pk %}">Uncomplete</a>
-            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        <li class="task-card completed-task">
+
+            <div class="task-main">
+
+                <div class="task-left">
+
+                    <span class="priority-dot priority-low"></span>
+
+                    <div class="task-title completed-title">
+                        {{ task.title }}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="task-actions">
+                <a href="{% url 'task_toggle_complete' task.pk %}">
+                    Uncomplete
+                </a>
+
+                <a href="{% url 'task_delete' task.pk %}">
+                    Delete
+                </a>
+            </div>
+
         </li>
     {% endfor %}
     </ul>
+</section>
 {% endif %}
-<a href="{% url 'category_toggle_pin' category.pk %}">
+<div>[<a href="{% url 'category_toggle_pin' category.pk %}">
     {% if category.is_pinned %}Unpin from nav{% else %}Pin to nav{% endif %}
-</a>
-<a href="{% url 'category_update' category.pk %}">Edit Category</a>
-<a href="{% url 'category_delete' category.pk %}">Delete Category</a>
+</a>]</div>
+<div>[<a href="{% url 'category_update' category.pk %}">Edit Category</a>]</div>
+<div>[<a href="{% url 'category_delete' category.pk %}">Delete Category</a>]</div>
 
 {% endblock %}

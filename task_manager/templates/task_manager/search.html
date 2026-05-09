@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -10,58 +11,82 @@
 {% elif query %}
 
     {% if results %}
-
+    <section>
         <p>Results for: "<strong>{{ query }}</strong>"</p>
-
         <ul>
             {% for task in results %}
-                <li>
+                <li class="task-card detailed-task-card">
 
-                    {% if task.is_completed %}
-                        <s>{{ task.title }}</s>
-                    {% else %}
-                        {{ task.title }}
-                    {% endif %}
+                    <div class="task-main">
+
+                        <div class="task-left">
+
+                            {% if task.priority == "High" %}
+                                <span class="priority-dot priority-high"></span>
+                            {% elif task.priority == "Medium" %}
+                                <span class="priority-dot priority-medium"></span>
+                            {% else %}
+                                <span class="priority-dot priority-low"></span>
+                            {% endif %}
+
+                            <div>
+
+                                {% if task.is_completed %}
+                                    <div class="task-title completed-title">
+                                        {{ task.title }}
+                                    </div>
+                                {% else %}
+                                    <div class="task-title">
+                                        {{ task.title }}
+                                    </div>
+                                {% endif %}
+
+                                {% if task.due_date %}
+                                    <div class="task-date">
+                                        {{ task.due_date|date:"d M, Y H:i" }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        {% if task.category %}
+                            <a href="{% url 'category_tasks' task.category.pk %}"
+                            class="task-category">
+                                {{ task.category }}
+                            </a>
+                        {% endif %}
+
+                    </div>
 
                     {% if task.content %}
-                        <br>
-                        {{ task.content }}
+                        <div class="task-content">
+                            {{ task.content }}
+                        </div>
                     {% endif %}
 
-                    {% if task.category %}
-                        <br>
-                        Category: [<a href="{% url 'category_tasks' task.category.pk %}">{{ task.category }}</a>]
-                    {% endif %}
+                    <div class="task-actions">
 
-                    {% if task.priority %}
-                        <br>
-                        Priority: {{ task.priority }}
-                    {% endif %}
+                        {% if task.is_completed %}
+                            <a href="{% url 'task_toggle_complete' task.pk %}">
+                                Uncomplete
+                            </a>
+                        {% else %}
+                            <a href="{% url 'task_toggle_complete' task.pk %}">
+                                Complete
+                            </a>
+                        {% endif %}
 
-                    {% if task.due_date %}
-                        <br>
-                        Due: {{ task.due_date|date:"d M, Y H:i" }}
-                    {% endif %}
-
-                    <br><br>
-
-                    {% if task.is_completed %}
-                        <a href="{% url 'task_toggle_complete' task.pk %}">
-                            Uncomplete
+                        <a href="{% url 'task_update' task.pk %}">
+                            Edit
                         </a>
-                    {% else %}
-                        <a href="{% url 'task_toggle_complete' task.pk %}">
-                            Complete
+
+                        <a href="{% url 'task_delete' task.pk %}">
+                            Delete
                         </a>
-                    {% endif %}
 
-                    <a href="{% url 'task_update' task.pk %}">
-                        Edit
-                    </a>
-
-                    <a href="{% url 'task_delete' task.pk %}">
-                        Delete
-                    </a>
+                    </div>
 
                 </li>
 
@@ -69,7 +94,7 @@
 
             {% endfor %}
         </ul>
-
+    </section>
     {% else %}
         <p>No tasks found for "{{ query }}".</p>
     {% endif %}

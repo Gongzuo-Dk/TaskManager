@@ -1,13 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <h2>Edit Task</h2>
-
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-{% endif %}
 
 <form method="POST">
     {% csrf_token %}
