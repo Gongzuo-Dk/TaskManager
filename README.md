@@ -104,6 +104,12 @@ Visit `http://127.0.0.1:8000` in your browser.
 - **Static files** — Served in production via WhiteNoise
 
 ## Screenshots
+On PC:  
 
-> _Add screenshots here_
+> <img width="1917" height="917" alt="Screenshot 2026-05-10 183404" src="https://github.com/user-attachments/assets/53f68241-6e01-4889-8c75-792a4bf8e3de" />
+On the Phone:
+
+> <img width="647" height="1280" alt="photo_2026-05-10_18-36-51" src="https://github.com/user-attachments/assets/6a90df36-b2c4-4cf1-a345-6d5a93e850ce" />
+
+
 
