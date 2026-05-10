@@ -112,4 +112,10 @@ On the Phone:
 > <img width="647" height="1280" alt="photo_2026-05-10_18-36-51" src="https://github.com/user-attachments/assets/6a90df36-b2c4-4cf1-a345-6d5a93e850ce" />
 
 
+## Author
+Daniel K  
+GitHub: https://github.com/Gongzuo-Dk  
+LinkedIn: https://www.linkedin.com/in/danylo-kulynych/
+
+
 
