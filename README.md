@@ -29,7 +29,7 @@ TaskManager is a personal productivity app that lets users manage their daily ta
 
 - **Backend** — Python, Django
 - **Database** — PostgreSQL
-- **Frontend** — Bootstrap 5, custom CSS
+- **Frontend** — custom CSS
 - **Deployment** — Railway
 - **Auth** — Django's built-in authentication system
 
@@ -52,7 +52,7 @@ cd TaskManager
 
 ```
 
-**2. Create and activate virtual environment**
+**2. Create and activate a virtual environment**
 ```bash
 python -m venv .venv
 .venv\Scripts\activate        # Windows
@@ -78,7 +78,7 @@ DB_PORT=5432
 
 **5. Set up the database**
 
-Make sure PostgreSQL is running and the database exists, then:
+Make sure PostgreSQL is running, and the database exists, then:
 ```bash
 python manage.py migrate
 ```
@@ -105,7 +105,7 @@ Visit `http://127.0.0.1:8000` in your browser.
 
 ## Screenshots 
 
-> <img width="1917" height="917" alt="Screenshot 2026-05-10 183404" src="https://github.com/user-attachments/assets/53f68241-6e01-4889-8c75-792a4bf8e3de" />
+> <img width="1272" height="917" alt="Screenshot 2026-05-16 151958" src="https://github.com/user-attachments/assets/ca1522a8-9a70-43b9-808a-f9e0342c144e" />
 
 
 ## Author
