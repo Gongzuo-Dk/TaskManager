@@ -1,15 +1,16 @@
-{% extends 'base.html' %}
-{% load static %}
-
+{% extends "base.html" %}
 {% block content %}
 <h2>Delete Task</h2>
-
-<p>Are you sure you want to delete "{{ task.title }}"?</p>
-
-<form method="POST">
+<div class="glass-card">
+  <p style="color:rgba(255,255,255,0.7); margin-bottom:24px;">
+    Are you sure you want to delete "<strong>{{ task.title }}</strong>"?
+  </p>
+  <form method="POST">
     {% csrf_token %}
-    <button type="submit">Yes, delete it</button>
-</form>
-
-<a href="{% url 'index' %}">Cancel</a>
+    <div style="display:flex; gap:12px;">
+      <button type="submit" class="btn btn-danger">Yes, delete it</button>
+      <a href="{% url 'index' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
 {% endblock %}

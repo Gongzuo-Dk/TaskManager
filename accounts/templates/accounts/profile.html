@@ -1,20 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    <h2>Profile</h2>
-
+<h2>Profile</h2>
+<div class="glass-card">
     {% if request.user.profile.avatar %}
         <img class="avatar-img" src="{{ request.user.profile.avatar.url }}" alt="Avatar">
     {% else %}
-        <img class="avatar-img" src="{% static 'images/default_avatar.png' %}">
+        <img class="avatar-img" src="{% static 'images/default_avatar.png' %}" alt="Avatar">
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ p_form.as_p }}
-        <button type="submit">Update</button>
+        {% for field in p_form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div style="display:flex; gap:12px; margin-top:16px;">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{% url 'password_change' %}" class="btn btn-ghost">Change Password</a>
+        </div>
     </form>
-
-    <p>Change Password: <a href="{% url 'password_change' %}"> Click Here!</a></p>
+</div>
 {% endblock %}

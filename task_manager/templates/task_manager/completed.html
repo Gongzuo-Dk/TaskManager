@@ -15,7 +15,13 @@
 
                     <div class="task-left">
 
-                        <span class="priority-dot priority-low"></span>
+                        {% if task.priority.name == "High" %}
+                            <span class="priority-dot priority-high"></span>
+                        {% elif task.priority.name == "Medium" %}
+                            <span class="priority-dot priority-medium"></span>
+                        {% else %}
+                            <span class="priority-dot priority-low"></span>
+                        {% endif %}
 
                         <div class="task-title completed-title">
                             {{ task.title }}
@@ -25,7 +31,7 @@
 
                     {% if task.category %}
                         <a href="{% url 'category_tasks' task.category.pk %}"
-                        class="task-category">
+                        class="btn btn-ghost">
                             {{ task.category }}
                         </a>
                     {% endif %}

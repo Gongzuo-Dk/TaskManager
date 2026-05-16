@@ -13,9 +13,9 @@
 
                 <div class="task-left">
 
-                    {% if task.priority == "High" %}
+                    {% if task.priority.name == "High" %}
                         <span class="priority-dot priority-high"></span>
-                    {% elif task.priority == "Medium" %}
+                    {% elif task.priority.name == "Medium" %}
                         <span class="priority-dot priority-medium"></span>
                     {% else %}
                         <span class="priority-dot priority-low"></span>
@@ -86,10 +86,11 @@
     </ul>
 </section>
 {% endif %}
-<div>[<a href="{% url 'category_toggle_pin' category.pk %}">
-    {% if category.is_pinned %}Unpin from nav{% else %}Pin to nav{% endif %}
-</a>]</div>
-<div>[<a href="{% url 'category_update' category.pk %}">Edit Category</a>]</div>
-<div>[<a href="{% url 'category_delete' category.pk %}">Delete Category</a>]</div>
-
+<div style="display:flex; gap:12px; margin-top:24px;">
+    <a href="{% url 'category_toggle_pin' category.pk %}" class="btn btn-primary">
+        {% if category.is_pinned %}Unpin from nav{% else %}Pin to nav{% endif %}
+    </a>
+    <a href="{% url 'category_update' category.pk %}" class="btn btn-primary">Edit Category</a>
+    <a href="{% url 'category_delete' category.pk %}" class="btn btn-danger">Delete Category</a>
+</div>
 {% endblock %}

@@ -1,107 +1,67 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block content %}
-
 <h2>Search Results</h2>
 
 {% if error %}
-    <p>{{ error }}</p>
-
+    <p class="empty-state">{{ error }}</p>
 {% elif query %}
-
     {% if results %}
     <section>
-        <p>Results for: "<strong>{{ query }}</strong>"</p>
-        <ul>
+        <p style="color:rgba(255,255,255,0.5); font-size:13px; margin-bottom:16px;">
+            Results for: "<strong style="color:rgba(255,255,255,0.8);">{{ query }}</strong>"
+        </p>
+        <ul style="list-style:none; padding:0; margin:0;">
             {% for task in results %}
-                <li class="task-card detailed-task-card">
-
+                <li class="task-card">
                     <div class="task-main">
-
                         <div class="task-left">
-
-                            {% if task.priority == "High" %}
+                            {% if task.priority.name == "High" %}
                                 <span class="priority-dot priority-high"></span>
-                            {% elif task.priority == "Medium" %}
+                            {% elif task.priority.name == "Medium" %}
                                 <span class="priority-dot priority-medium"></span>
-                            {% else %}
+                            {% elif task.priority.name == "Low" %}
                                 <span class="priority-dot priority-low"></span>
+                            {% else %}
+                                <span class="priority-dot priority-none"></span>
                             {% endif %}
-
-                            <div>
-
+                            <div class="task-info">
                                 {% if task.is_completed %}
-                                    <div class="task-title completed-title">
-                                        {{ task.title }}
-                                    </div>
+                                    <div class="task-title completed">{{ task.title }}</div>
                                 {% else %}
-                                    <div class="task-title">
-                                        {{ task.title }}
-                                    </div>
+                                    <div class="task-title">{{ task.title }}</div>
                                 {% endif %}
-
+                                {% if task.content %}
+                                    <div class="task-date">{{ task.content }}</div>
+                                {% endif %}
                                 {% if task.due_date %}
-                                    <div class="task-date">
-                                        {{ task.due_date|date:"d M, Y H:i" }}
-                                    </div>
+                                    <div class="task-date">{{ task.due_date|date:"d M, Y H:i" }}</div>
                                 {% endif %}
-
                             </div>
-
                         </div>
-
                         {% if task.category %}
-                            <a href="{% url 'category_tasks' task.category.pk %}"
-                            class="task-category">
+                            <a href="{% url 'category_tasks' task.category.pk %}" class="btn btn-ghost">
                                 {{ task.category }}
                             </a>
                         {% endif %}
-
                     </div>
-
-                    {% if task.content %}
-                        <div class="task-content">
-                            {{ task.content }}
-                        </div>
-                    {% endif %}
-
                     <div class="task-actions">
-
                         {% if task.is_completed %}
-                            <a href="{% url 'task_toggle_complete' task.pk %}">
-                                Uncomplete
-                            </a>
+                            <a href="{% url 'task_toggle_complete' task.pk %}">Uncomplete</a>
                         {% else %}
-                            <a href="{% url 'task_toggle_complete' task.pk %}">
-                                Complete
-                            </a>
+                            <a href="{% url 'task_toggle_complete' task.pk %}">Complete</a>
                         {% endif %}
-
-                        <a href="{% url 'task_update' task.pk %}">
-                            Edit
-                        </a>
-
-                        <a href="{% url 'task_delete' task.pk %}">
-                            Delete
-                        </a>
-
+                        <a href="{% url 'task_update' task.pk %}">Edit</a>
+                        <a href="{% url 'task_delete' task.pk %}">Delete</a>
                     </div>
-
                 </li>
-
-                <hr>
-
             {% endfor %}
         </ul>
     </section>
     {% else %}
-        <p>No tasks found for "{{ query }}".</p>
+        <p class="empty-state">No tasks found for "{{ query }}".</p>
     {% endif %}
-
 {% else %}
-    <p>Enter something into the search bar.</p>
-
+    <p class="empty-state">Enter something into the search bar.</p>
 {% endif %}
-
 {% endblock %}

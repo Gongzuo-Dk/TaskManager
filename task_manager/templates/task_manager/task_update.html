@@ -1,14 +1,22 @@
 {% extends "base.html" %}
-{% load static %}
-
 {% block content %}
-<h2>Edit Task</h2>
-
-<form method="POST">
+<h2>Update Task</h2>
+<div class="glass-card">
+  <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
-</form>
-
-<a href="{% url 'index' %}">Cancel</a>
+    {% for field in form %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.errors %}
+          <p style="color:#ff9a9a; font-size:12px; margin-top:4px;">{{ field.errors.0 }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <div style="display:flex; gap:12px; margin-top:8px;">
+      <button type="submit" class="btn btn-primary">Update Task</button>
+      <a href="{% url 'index' %}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
 {% endblock %}
