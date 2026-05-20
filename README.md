@@ -47,8 +47,8 @@ static/               # CSS, JS, images
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/Gongzuo-Dk/TaskManager.git
-cd TaskManager  
+git https://github.com/Gongzuo-Dk/task-manager.git
+cd task-manager  
 
 ```
 
